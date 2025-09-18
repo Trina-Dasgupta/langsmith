@@ -23,7 +23,7 @@ load_dotenv()
 PDF_PATH = "islr.pdf"  # change to your file
 
 # ---------- traced setup steps ----------
-@traceable(name="load_pdf")
+@traceable(name="load_pdf",tags=['pdf','loader'],metadata={'loader':'PyPDFLoader'})
 def load_pdf(path: str):
     loader = PyPDFLoader(path)
     return loader.load()  # list[Document]
@@ -35,7 +35,7 @@ def split_documents(docs, chunk_size=1000, chunk_overlap=150):
     )
     return splitter.split_documents(docs)
 
-@traceable(name="build_vectorstore")
+@traceable(name="build_vectorstore",tags=['embedding','vectorstores'],metadata={'embedding-model':'text-embedding-3-small'})
 def build_vectorstore(splits):
     emb = OpenAIEmbeddings(model="text-embedding-3-small")
     # FAISS.from_documents internally calls the embedding model:
